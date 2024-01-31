@@ -20,7 +20,7 @@ exports.gettAllTours = async (req, res) => {
   } catch (e) {
     res.status(404).json({
       status: 'fail',
-      message: e.errors,
+      message: e.message,
     });
   }
 };
@@ -28,6 +28,7 @@ exports.gettAllTours = async (req, res) => {
 exports.createTours = async (req, res) => {
   try {
     let addTourData = await Tour.create(req.body);
+    console.log(addTourData);
     res.status(201).json({
       status: 'sucess',
       data: {
@@ -37,7 +38,7 @@ exports.createTours = async (req, res) => {
   } catch (e) {
     res.status(400).json({
       status: 'fail',
-      message: e.errors,
+      message: e.message,
     });
   }
 };
@@ -55,7 +56,7 @@ exports.getTours = async (req, res) => {
   } catch (e) {
     res.status(404).json({
       status: 'fail',
-      message: e.errors,
+      message: 'Tour with id is not there please check the id',
     });
   }
 };
@@ -79,7 +80,7 @@ exports.updateTours = async (req, res) => {
   } catch (e) {
     res.status(400).json({
       status: 'fail',
-      message: e.errors,
+      message: e.message,
     });
   }
 };
@@ -94,7 +95,7 @@ exports.deleteTours = async (req, res) => {
   } catch (e) {
     res.status(404).json({
       status: 'fail',
-      message: e.errors,
+      message: e.message,
     });
   }
 };
@@ -129,7 +130,7 @@ exports.getTourStats = async (req, res) => {
   } catch (e) {
     res.status(404).json({
       status: 'fail',
-      message: e.errors,
+      message: e.message,
     });
   }
 };
@@ -170,7 +171,7 @@ exports.getMonthlyPlan = async (req, res) => {
   } catch (e) {
     res.status(404).json({
       status: 'fail',
-      message: e.errors,
+      message: e.message,
     });
   }
 };
