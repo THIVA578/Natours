@@ -1,7 +1,7 @@
 const Tour = require('./../models/tourModel');
 const APIFeatures = require('../utils/apiFeatures');
 
-exports.gettAllTours = async (req, res) => {
+exports.gettAllTours = async (req, res, next) => {
   try {
     const features = new APIFeatures(Tour.find(), req.query)
       .filter()
@@ -17,15 +17,16 @@ exports.gettAllTours = async (req, res) => {
         tours: tours,
       },
     });
-  } catch (e) {
-    res.status(404).json({
-      status: 'fail',
-      message: e.message,
-    });
+  } catch (error) {
+    next(error);
+    // res.status(404).json({
+    //   status: 'fail',
+    //   message: e.message,
+    // });
   }
 };
 
-exports.createTours = async (req, res) => {
+exports.createTours = async (req, res, next) => {
   try {
     let addTourData = await Tour.create(req.body);
     console.log(addTourData);
@@ -36,10 +37,13 @@ exports.createTours = async (req, res) => {
       },
     });
   } catch (e) {
-    res.status(400).json({
-      status: 'fail',
-      message: e.message,
-    });
+    const err = new Error('Failed to create tour'); // Set a meaningful error message
+    err.status = 400; // Set the appropriate status code
+    next(err);
+    // res.status(400).json({
+    //   status: 'fail',
+    //   message: e.message,
+    // });
   }
 };
 
@@ -54,10 +58,13 @@ exports.getTours = async (req, res) => {
       },
     });
   } catch (e) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'Tour with id is not there please check the id',
-    });
+    const err = new Error('Tour with id is not there please check the id'); // Set a meaningful error message
+    err.status = 404; // Set the appropriate status code
+    next(err);
+    // res.status(404).json({
+    //   status: 'fail',
+    //   message: 'Tour with id is not there please check the id',
+    // });
   }
 };
 

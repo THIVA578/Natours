@@ -4,6 +4,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const morgan = require('morgan');
 const AppError = require('./utils/appError');
+const errorHandler = require('./utils/errorHandler');
 const errorController = require('./controllers/errorController');
 
 app.use(express.json());
@@ -26,11 +27,16 @@ app.use('/api/v1/users', userRouter);
 //unHandled Routes
 
 app.all('*', (req, res, next) => {
-  next(new AppError(`can't find ${req.originalUrl} on this server`, 404));
+  res.status(404).json({
+    status: 'fail',
+    message: `your accessing ${req.originalUrl} which is not defined`,
+  });
+  // next(new AppError(`can't find ${req.originalUrl} on this server`, 404));
 });
+app.use(errorHandler);
 
 // error handling Middleware
 
-app.use(errorController);
+// app.use(errorController);
 
 module.exports = app;
